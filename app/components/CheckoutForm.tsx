@@ -37,15 +37,6 @@ const CheckoutForm = () => {
       return;
     }
 
-    // Criar o objeto de dados para enviar para o banco de dados
-    const formDataObject = {
-      nome,
-      morada,
-      cpostal,
-      email,
-      telemovel,
-    };
-
     // console.log("Dados validados:", formDataObject);
 
     try {
