@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 import stock from "../../public/data/Data";
 
@@ -13,10 +14,12 @@ const OrderSummary = () => {
       <ul className="py-6 border-b space-y-6 px-8">
         <li className="grid grid-cols-6 gap-2 border-b-1 ">
           <div className="col-span-1 self-center">
-            <img
+            <Image
               src="/agenda-2025-1.png"
-              alt="Product"
-              className="rounded w-full"
+              alt="Description"
+              width={500} // A largura da imagem
+              height={300} // A altura da imagem
+              priority
             />
           </div>
           <div className="flex flex-col col-span-3 pt-2">

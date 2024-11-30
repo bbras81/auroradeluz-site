@@ -2,8 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import stock from "../public/data/Data";
 
-
-
 export default function Home() {
   return (
     <main className="min-h-screen bg-[var(--background)] py-8">
@@ -17,6 +15,7 @@ export default function Home() {
               width={705}
               height={1000}
               className="w-full h-full object-fill rounded-lg shadow-lg"
+              priority
             />
           </div>
 
