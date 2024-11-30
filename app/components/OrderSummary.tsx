@@ -27,6 +27,7 @@ const OrderSummary = () => {
           <div className="flex flex-col col-span-1 pt-2 self-center">
             <input
               type="text"
+              id="quantidade"
               defaultValue={1}
               onChange={(event) => setValue(parseInt(event.target.value))}
               className="block w-full p-2 border border-gray-300 rounded text-center text-sm"

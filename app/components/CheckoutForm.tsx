@@ -3,15 +3,64 @@
 import React from "react";
 
 const CheckoutForm = () => {
-  const handleSubmit = async (formData: FormData) => {
-    const nome = formData.get("nome");
-    const morada = formData.get("morada");
-    const cpostal = formData.get("cpostal");
-    const email = formData.get("email");
-    const telemovel = formData.get("telemovel");
-    const quantidade = formData.get("quantidade");
-    console.log(nome, morada, cpostal, email, telemovel, quantidade);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Evita o recarregamento da página
+
+    const formData = new FormData(event.currentTarget);
+
+    // Obter os valores do formulário
+    const nome = formData.get("nome")?.toString().trim();
+    const morada = formData.get("morada")?.toString().trim();
+    const cpostal = formData.get("cpostal")?.toString().trim();
+    const email = formData.get("email")?.toString().trim();
+    const telemovel = formData.get("telemovel")?.toString().trim();
+
+    // Validação dos campos
+    if (!nome) {
+      alert("Por favor, insira o seu nome.");
+      return;
+    }
+    if (!morada) {
+      alert("Por favor, insira a sua morada.");
+      return;
+    }
+    if (!/^\d{4}-\d{3}$/.test(cpostal)) {
+      alert("Por favor, insira um código postal válido (ex: 1234-567).");
+      return;
+    }
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      alert("Por favor, insira um email válido.");
+      return;
+    }
+    if (!/^\d{9}$/.test(telemovel)) {
+      alert("Por favor, insira um número de telemóvel válido com 9 dígitos.");
+      return;
+    }
+
+    // Criar o objeto de dados para enviar para o banco de dados
+    const formDataObject = {
+      nome,
+      morada,
+      cpostal,
+      email,
+      telemovel,
+    };
+
+    // console.log("Dados validados:", formDataObject);
+
+    try {
+      fetch("/api/add_client", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nome, morada, cpostal, email, telemovel }),
+      });
+    } catch (error) {
+      console.error("Erro ao enviar dados:", error);
+    }
   };
+
   return (
     <div className="lg:col-span-2 col-span-4 bg-white">
       <h2 className="uppercase tracking-wide text-lg text-center font-semibold text-gray-700 my-2">
@@ -20,7 +69,7 @@ const CheckoutForm = () => {
       <form
         id="payment-form"
         method="POST"
-        action={handleSubmit}
+        onSubmit={handleSubmit}
         className="max-w-sm mx-auto mb-6"
       >
         <div className="mb-5">
@@ -32,9 +81,10 @@ const CheckoutForm = () => {
           </label>
           <input
             type="text"
+            name="nome"
             id="nome"
             className="autofocus bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            placeholder="Nome  e apelido"
+            placeholder="Nome e apelido"
             required
           />
         </div>
@@ -47,9 +97,10 @@ const CheckoutForm = () => {
           </label>
           <input
             type="text"
+            name="morada"
             id="morada"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            placeholder="Rua e numero"
+            placeholder="Rua e número"
             required
           />
         </div>
@@ -62,6 +113,7 @@ const CheckoutForm = () => {
           </label>
           <input
             type="text"
+            name="cpostal"
             id="cpostal"
             className="autofocus bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             placeholder="1234-123"
@@ -77,9 +129,10 @@ const CheckoutForm = () => {
           </label>
           <input
             type="email"
+            name="email"
             id="email"
             className="autofocus bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            placeholder="Nome  e apelido"
+            placeholder="Seu email"
             required
           />
         </div>
@@ -92,9 +145,10 @@ const CheckoutForm = () => {
           </label>
           <input
             type="text"
+            name="telemovel"
             id="telemovel"
             className="autofocus bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            placeholder="910 000 000"
+            placeholder="910000000"
             required
           />
         </div>

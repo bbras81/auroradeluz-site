@@ -12,9 +12,10 @@ datasource db {
 
 model Cliente {
     id Int @default(autoincrement()) @id
-    name String
+    nome String
     morada String
     cpostal String
     email String @unique
-    telemovel Int
+    telemovel String
+
 }
